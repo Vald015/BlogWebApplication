@@ -3,7 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 
 class PostsNew extends Component {
 
-  renderField(field,label){
+  renderField(field){
     return (
       <div className="form-group">
         <label>{field.label}</label>
@@ -12,21 +12,23 @@ class PostsNew extends Component {
           type="text"
           {...field.input}
         />
+        {field.meta.error}
       </div>
     );
   }
 
   render(){
+    const { handleSubmit } = this.props;
     return (
-      <form>
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field
           label="Title For Post"
           name="title"
           component={this.renderField}
         />
         <Field
-          label="Tags"
-          name="tags"
+          label="Categories"
+          name="categories"
           component={this.renderField}
         />
         <Field
@@ -34,11 +36,32 @@ class PostsNew extends Component {
           name="content"
           component={this.renderField}
         />
+        <button type= "submit" className="btn btn-primary">Submit</button>
+
       </form>
     );
   }
 }
 
+function validate(values){
+  //console.log(values); --> { title: 'asdf',categories: 'asdf',content:'asdf' }
+  const errors = {};
+  //validate the inputs from 'values'
+  if(!values.title){
+    errors.title = "Error a title";
+  }
+  if(!values.categories){
+    errors.categories = 'Enter some categories';
+  }
+  if(!values.content){
+    errors.content = 'Enter some content please';
+  }
+  // If errors is empty, the form is fine to submit
+  // If errors has *any* properties, redux form assumes from is invalid
+  return errors;
+}
+
 export default reduxForm({
+  validate,
   form: 'PostsNewForm'
 })(PostsNew);
