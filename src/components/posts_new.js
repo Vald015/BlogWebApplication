@@ -11,7 +11,6 @@ class PostsNew extends Component {
     const className =`form-group ${ touched && error ? 'has-danger': ''}`;
     return (
       <div className= { className }>
-        <img src = {require("../images/download.png")} />
         <label>{field.label}</label>
         <input
           className="form-control"
@@ -31,6 +30,7 @@ class PostsNew extends Component {
     this.props.createPost(values, () => {
       this.props.history.push('/');
     });
+
   }
 
   render(){
@@ -54,6 +54,7 @@ class PostsNew extends Component {
         />
         <button type= "submit" className="btn btn-primary">Submit</button>
         <Link to="/" className="btn btn-danger">Cancel</Link>
+
       </form>
     );
   }
